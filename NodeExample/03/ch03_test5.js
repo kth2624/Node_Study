@@ -5,7 +5,7 @@
  * 함수는 변수에 할당할 수 있으므로 객체의 속성으로도 할당할 수 있음
  */
 
-var Person = {};
+let Person = {};
 
 Person['age'] = 20;
 Person['name'] = '소녀시대';
@@ -14,3 +14,4 @@ Person.add = function(a, b) {
 };
 
 console.log('더하기 : %d', Person.add(10,10));
+console.log('%s는 예쁘다', Person.name);

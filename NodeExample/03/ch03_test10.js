@@ -2,12 +2,13 @@
  * 3장 Test 10
  *
  * 배열 안의 모든 요소를 하나씩 확인하기
+ * for문 사용
  */
 
-var Users = [{name:'소녀시대',age:20},{name:'걸스데이',age:22},{name:'티아라',age:23}];
+let Users = [{name:'소녀시대',age:20},{name:'걸스데이',age:22},{name:'티아라',age:23}];
 
 console.log('배열 요소의 수 : %d', Users.length);
-for (var i = 0; i < Users.length; i++) {
+for (let i = 0; i < Users.length; i++) {
 	console.log('배열 요소 #' + i + ' : %s', Users[i].name);
 }
 

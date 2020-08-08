@@ -3,9 +3,11 @@
  *
  * 배열의 요소 삭제하기, 요소들을 추가하거나 삭제하기
  * delete 키워드 사용, splice() 메소드 사용
+ * delete 로 객체만 사용하면 배열에 공간이 남음.
+ * splice()를 사용하면 배열 요소를 담는 공간까지 없애줌
  */
 
-var Users = [{name:'소녀시대',age:20},{name:'걸스데이',age:22},{name:'티아라',age:23}];
+let Users = [{name:'소녀시대',age:20},{name:'걸스데이',age:22},{name:'티아라',age:23}];
 
 console.log('delete 키워드로 배열 요소 삭제 전 배열 요소의 수 : %d', Users.length);
 

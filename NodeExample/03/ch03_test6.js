@@ -5,12 +5,12 @@
  * 함수를 변수에 할당한 후 속성으로 할당할 수 있음
  */
 
-var Person = {};
+let Person = {};
 
 Person['age'] = 20;
 Person['name'] = '소녀시대';
 
-var oper = function(a, b) {
+let oper = function(a, b) {
 	return a + b;
 };
 

@@ -2,10 +2,11 @@
  * 3장 Test 15
  *
  * 함수를 파라미터로 전달
+ * 콜백함수
  */
 
 function add( a, b, callback) {
-	var result = a + b;
+	let result = a + b;
 	callback(result);
 }
 

@@ -4,7 +4,7 @@
  * 객체 선언 시 속성 정의
  */
 
-var Person = {
+let Person = {
 	age: 20,
 	name: '소녀시대',
 	add: function(a, b) {
