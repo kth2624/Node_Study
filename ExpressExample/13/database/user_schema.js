@@ -1,5 +1,5 @@
-/**
- * 데이터베이스 스키마를 정의하는 모듈
+﻿/**
+ * 사용자 정보 스키마
  *
  * @date 2016-11-10
  * @author Mike
@@ -14,11 +14,18 @@ Schema.createSchema = function(mongoose) {
 	// 스키마 정의
 	var UserSchema = mongoose.Schema({
 		email: {type: String, 'default':''}
-	    , hashed_password: {type: String, required: true, 'default':''}
+	    , hashed_password: {type: String, 'default':''}
 	    , name: {type: String, index: 'hashed', 'default':''}
-	    , salt: {type:String, required:true}
+	    , salt: {type:String}
 	    , created_at: {type: Date, index: {unique: false}, 'default': Date.now}
 	    , updated_at: {type: Date, index: {unique: false}, 'default': Date.now}
+	    , provider: {type: String, 'default':''}
+	    , authToken: {type: String, 'default':''}
+	    , facebook: {}
+	    , twitter: {}
+	    , github: {}
+	    , google: {}
+	    , linkedin: {}
 	});
 
 	// password를 virtual 메소드로 정의 : MongoDB에 저장되지 않는 편리한 속성임. 특정 속성을 지정하고 set, get 메소드를 정의함
@@ -58,6 +65,11 @@ Schema.createSchema = function(mongoose) {
 		}
 	});
 
+
+	UserSchema.method('checkValidation', function() {
+	    return (this.provider == '');
+	});
+
 	// 값이 유효한지 확인하는 함수 정의
 	var validatePresenceOf = function(value) {
 		return value && value.length;
@@ -67,7 +79,7 @@ Schema.createSchema = function(mongoose) {
 	UserSchema.pre('save', function(next) {
 		if (!this.isNew) return next();
 
-		if (!validatePresenceOf(this.password)) {
+		if (!validatePresenceOf(this.password) && this.checkValidation()) {
 			next(new Error('유효하지 않은 password 필드입니다.'));
 		} else {
 			next();
@@ -76,15 +88,17 @@ Schema.createSchema = function(mongoose) {
 
 	// 입력된 칼럼의 값이 있는지 확인
 	UserSchema.path('email').validate(function (email) {
+		if (!this.checkValidation()) return true;
 		return email.length;
 	}, 'email 칼럼의 값이 없습니다.');
 
-	UserSchema.path('hashed_password').validate(function (hashed_password) {
-		return hashed_password.length;
-	}, 'hashed_password 칼럼의 값이 없습니다.');
+	//UserSchema.path('hashed_password').validate(function (hashed_password) {
+	//	if (!this.checkValidation()) return true;
+	//	return hashed_password.length;
+	//}, 'hashed_password 칼럼의 값이 없습니다.');
 
 
-	// 모델 객체에서 사용할 수 있는 메소드 정의
+	// 스키마에 static 메소드 추가
 	UserSchema.static('findByEmail', function(email, callback) {
 		return this.find({email:email}, callback);
 	});
@@ -92,6 +106,18 @@ Schema.createSchema = function(mongoose) {
 	UserSchema.static('findAll', function(callback) {
 		return this.find({}, callback);
 	});
+
+	UserSchema.static('load', function(options, callback) {
+		options.select = options.select || 'name';
+	    this.findOne(options.criteria)
+	      .select(options.select)
+	      .exec(callback);
+	});
+
+
+	// 모델을 위한 스키마 등록
+	mongoose.model('User', UserSchema);
+
 
 	console.log('UserSchema 정의함.');
 

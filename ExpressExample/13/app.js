@@ -1,8 +1,7 @@
 /**
- * 패스포트 사용하기
+ * 모바일 서버 만들기
  *
- * 패스포트 모듈에서 로그인 인증을 처리하도록 함
- * 페이스북으로 로그인, 트위터로 로그인, 구글로 로그인 기능 포함
+ * 단말 관리와 푸시 메시지 전송을 위한 기능 구현
  *
  * @date 2016-11-10
  * @author Mike
@@ -106,7 +105,7 @@ userPassport(router, passport);
 //===== 404 에러 페이지 처리 =====//
 var errorHandler = expressErrorHandler({
  static: {
-   '404': './Day7/12/public/404.html'
+   '404': './public/404.html'
  }
 });
 
